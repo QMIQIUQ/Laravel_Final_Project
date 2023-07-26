@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-app-layout>
 
     <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
         Add Product
@@ -58,4 +58,4 @@
     </form>
 
 
-</x-guest-layout>
+</x-app-layout>

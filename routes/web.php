@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AddItemsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,10 +19,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//add items
+Route::get('/additems', function () {
+    return view('add-items');
+})->middleware(['auth', 'verified'])->name('additems');
+
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+//auth routes
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
