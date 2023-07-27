@@ -10,7 +10,7 @@
      <!-- Check for success message and display notification -->
      <div>
         @if(Session::has('success'))
-            <div class="px-4 py-3 mb-4 bg-green-300 text-red-600 rounded-lg">
+            <div style="color: greenyellow" class="px-4 py-3 mb-4 bg-green-300 rounded-lg">
                 {{ Session::get('success') }}
             </div>
         @endif

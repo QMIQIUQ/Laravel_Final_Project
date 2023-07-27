@@ -24,6 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //show items
     Route::get('/ProductList', [ProductController::class, 'index'])->name('showitems');
+
     Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('edit');
     Route::put('/products/{id}', [ProductController::class, 'update'])->name('update');
     Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('delete');

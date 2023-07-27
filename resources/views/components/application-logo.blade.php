@@ -1,3 +1,3 @@
 <div>
-    <img src="{{asset('logo\Logo White.png')}}" width="100px">
+    <img src="{{asset('logo\Logo White.png')}}" width="85px">
 </div>
