@@ -1,9 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\AddItemsController;
-use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ProductController;
+use Illuminate\Support\Facades\Route;;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,17 +14,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 //add items
-Route::get('/additems', function () {
-    return view('add-items');
-})->middleware(['auth', 'verified'])->name('additems');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/additems', function () {
+        return view('add-items');
+    })->name('additems');
+    Route::post('/additems', [ProductController::class, 'store'])->name('additems.store');
 
+    //show items
+    Route::get('/ProductList', [ProductController::class, 'index'])->name('showitems');
+    Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('edit');
+    Route::put('/products/{id}', [ProductController::class, 'update'])->name('update');
+    Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('delete');
+});
 
-Route::get('/dashboard', function () {
+Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -36,4 +40,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
