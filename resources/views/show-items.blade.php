@@ -6,13 +6,19 @@
         </h2>
     </x-slot>
 
+    <!-- Add Product Button -->
+    <h2 style="color: lightgreen">
+        <a href="{{ route('additems') }}" class="text-lg font-semibold mb-4 pt-4 hover:underline">Click here to Register Product</a>
+    </h2>
 
-     <!-- Check for success message and display notification -->
-     <div>
+
+
+    <!-- Check for success message and display notification -->
+    <div>
         @if(Session::has('success'))
-            <div style="color: greenyellow" class="px-4 py-3 mb-4 bg-green-300 rounded-lg">
-                {{ Session::get('success') }}
-            </div>
+        <div style="color: greenyellow" class="px-4 py-3 mb-4 bg-green-300 rounded-lg">
+            {{ Session::get('success') }}
+        </div>
         @endif
     </div>
 
@@ -20,14 +26,15 @@
         table {
             border-collapse: collapse;
         }
-        th, td {
+
+        th,
+        td {
             border: 1px solid dimgray;
             padding: 5px;
         }
-
     </style>
 
-    
+
     <!-- Table to show all products -->
     <div class="mt-8 dark:text-white">
         {{-- search bar --}}
@@ -41,7 +48,7 @@
         <div class="overflow-x-auto rounded-md ">
             <table style="border: 1px solid dimgray; border-radius: 5px;" class=" table-auto w-full ">
                 <thead>
-                    <tr >
+                    <tr>
                         <th class=" px-4 py-2">Item Code</th>
                         <th class=" px-4 py-2">Item Name</th>
                         <th class=" px-4 py-2">Item Price</th>
@@ -49,20 +56,22 @@
                         <th class=" px-4 py-2">Actions</th>
                     </tr>
                 </thead>
-                <tbody >
+                <tbody>
                     @foreach($products as $product)
-                    <tr >
+                    <tr>
                         <td class="px-4 py-2">{{ $product->item_code }}</td>
                         <td class="px-4 py-2">{{ $product->item_name }}</td>
                         <td class="px-4 py-2">{{ $product->item_price }}</td>
                         <td class="px-4 py-2">{{ $product->item_type }}</td>
                         <td class="px-4 py-2">
-                            <a href="{{ route('edit', ['id' => $product->id]) }}" style="color: rgb(193, 223, 154)" class=" hover:underline">Edit</a>
+                            <a href="{{ route('edit', ['id' => $product->id]) }}" style="color: rgb(193, 223, 154)"
+                                class=" hover:underline">Edit</a>
                             <form class="inline" method="POST" action="{{ route('delete', ['id' => $product->id]) }}">
                                 @csrf
                                 @method('DELETE')
 
-                                <button type="submit" style="" class="text-red-600 hover:underline" onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
+                                <button type="submit" style="" class="text-red-600 hover:underline"
+                                    onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
                             </form>
                         </td>
                     </tr>

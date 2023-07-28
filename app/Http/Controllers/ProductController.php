@@ -8,7 +8,7 @@ use App\Models\Product; // Import the Product model
 
 class ProductController extends Controller
 {
-    public function index()
+    public function show()
     {
         $products = Product::all();
         return view('show-items', compact('products'));
@@ -75,4 +75,6 @@ class ProductController extends Controller
 
         return redirect()->route('showitems')->with('success', 'Product deleted successfully!');
     }
+
+    
 }

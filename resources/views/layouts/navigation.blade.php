@@ -24,8 +24,8 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('additems')" :active="request()->routeIs('additems')">
-                        {{ __('Register Product') }}
+                    <x-nav-link :href="route('pos')" :active="request()->routeIs('pos')">
+                        {{ __('Pos System') }}
                     </x-nav-link>
                 </div>
                 
