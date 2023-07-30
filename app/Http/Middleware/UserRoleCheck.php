@@ -14,7 +14,7 @@ class UserRoleCheck
         if ($request->user() && $request->user()->user_role == 0) {
             return $next($request);
         }
-
+        
         // If user_role is not 0, redirect back with an error message
         return redirect()->back()->with('error', 'You are not authorized to access this page.');
     }

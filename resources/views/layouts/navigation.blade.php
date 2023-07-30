@@ -16,12 +16,19 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
-
+                @if (auth()->user() && auth()->user()->user_role == 0)
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('showitems')" :active="request()->routeIs('showitems')">
                         {{ __('Product List') }}
                     </x-nav-link>
                 </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                        {{ __('Users') }}
+                    </x-nav-link>
+                </div>
+                @endif
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('pos')" :active="request()->routeIs('pos')">

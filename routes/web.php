@@ -3,7 +3,10 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PosController;
-use Illuminate\Support\Facades\Route;;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,7 +19,6 @@ use Illuminate\Support\Facades\Route;;
 */
 
 
-use App\Http\Controllers\UserController;
 
 //admin
 Route::middleware(['auth', 'verified', 'admin'])->group(function () {
@@ -31,16 +33,21 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('edit');
     Route::put('/products/{id}', [ProductController::class, 'update'])->name('update');
     Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('delete');
+});
 
-    
+
+Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     // Show all users
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
-    // Edit user profile
-    Route::get('/users/{user}', [UserController::class, 'edit'])->name('users.edit');
-    Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
-    // Register new user
-    Route::get('/register', [UserController::class, 'create'])->name('users.create');
-    Route::post('/register', [UserController::class, 'store'])->name('users.store');
+    // admin user registration
+    Route::get('/register-admin', [RegisteredUserController::class, 'createAdmin'])->name('register.admin');
+    Route::post('/register-admin', [RegisteredUserController::class, 'storeAdmin'])->name('register.admin.store');
+    // admin user profile edit
+    Route::get('/edit-admin/{id}', [UserController::class, 'editAdmin'])->name('edit-admin');
+    Route::patch('/update-admin/{id}', [UserController::class, 'updateUserInformation'])->name('updateUser');
+    Route::delete('/delete-user/{id}', [UserController::class, 'deleteUser'])->name('deleteUser');
+    Route::patch('/users/{id}/change-password', 'UserController@changePassword')->name('users.change-password');
+
 });
 
 //add items
