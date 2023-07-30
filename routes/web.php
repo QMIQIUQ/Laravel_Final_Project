@@ -16,19 +16,36 @@ use Illuminate\Support\Facades\Route;;
 */
 
 
-//add items
-Route::middleware(['auth', 'verified'])->group(function () {
+use App\Http\Controllers\UserController;
+
+//admin
+Route::middleware(['auth', 'verified', 'admin'])->group(function () {
+    // Show all products
+    Route::get('/ProductList', [ProductController::class, 'show'])->name('showitems');
     Route::get('/additems', function () {
         return view('add-items');
     })->name('additems');
     Route::post('/additems', [ProductController::class, 'store'])->name('additems.store');
 
     //show items
-    Route::get('/ProductList', [ProductController::class, 'show'])->name('showitems');
-
     Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('edit');
     Route::put('/products/{id}', [ProductController::class, 'update'])->name('update');
     Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('delete');
+
+    
+    // Show all users
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    // Edit user profile
+    Route::get('/users/{user}', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+    // Register new user
+    Route::get('/register', [UserController::class, 'create'])->name('users.create');
+    Route::post('/register', [UserController::class, 'store'])->name('users.store');
+});
+
+//add items
+Route::middleware(['auth', 'verified'])->group(function () {
+
 
     // cart
     Route::get('/pos', [PosController::class, 'index'])->name('pos');
