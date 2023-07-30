@@ -13,7 +13,7 @@
                     <span class="text-gray-700 dark:text-gray-400">Item Code</span>
                     <input id="item_code" name="item_code"
                         class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                        placeholder="Insert Barcode Value" required />
+                        placeholder="Insert Barcode Value" required autofocus />
                 </label>
                 @error('item_code')
                 <div class="text-red-600 mt-2 text-sm">
@@ -64,6 +64,7 @@
                             <option value="Powerbank">Powerbank</option>
                             <option value="Headset">Headset</option>
                             <option value="Speaker">Speaker</option>
+                            <option value="Others">Others</option>
                         </optgroup>
                     </select>
                 </label>

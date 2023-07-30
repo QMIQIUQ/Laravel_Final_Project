@@ -47,6 +47,7 @@
                             <option value="Powerbank" @if ($product->item_type === 'Powerbank') selected @endif>Powerbank</option>
                             <option value="Headset" @if ($product->item_type === 'Headset') selected @endif>Headset</option>
                             <option value="Speaker" @if ($product->item_type === 'Speaker') selected @endif>Speaker</option>
+                            <option value="Others"@if ($product->item_type === 'Others') selected @endif>Others</option></option>
                         </optgroup>
                     </select>
                 </label>

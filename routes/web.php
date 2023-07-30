@@ -30,16 +30,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/products/{id}', [ProductController::class, 'update'])->name('update');
     Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('delete');
 
-    // add to cart
+    // cart
     Route::get('/pos', [PosController::class, 'index'])->name('pos');
     Route::post('/search', [PosController::class, 'search'])->name('search');
     Route::post('/add-to-cart/{itemId}', [PosController::class, 'addToCart'])->name('addToCart');
-
     Route::delete('/remove-from-cart/{itemId}', [PosController::class, 'removeFromCart'])->name('removeFromCart');
     Route::post('/clear-cart', [PosController::class, 'clearCart'])->name('clearCart');
+    Route::get('/checkout', [PosController::class, 'checkout'])->name('checkout');
 });
 
+//home
 Route::get('/', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 

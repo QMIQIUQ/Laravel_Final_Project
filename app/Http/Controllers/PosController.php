@@ -51,17 +51,6 @@ class PosController extends Controller
     private function findItemInCart($cartItems, $itemId)
     {
         foreach ($cartItems as $index => $item) {
-            if ($item['id'] === $itemId) {
-                return $index;
-            }
-        }
-        return -1;
-    }
-
-    private function findItemInCart1($cartItems, $itemId)
-    {
-        foreach ($cartItems as $index => $item) {
-            
             if ($item['id'] == $itemId) {
                 return $index;
             }
@@ -69,10 +58,12 @@ class PosController extends Controller
         return -1;
     }
 
+
+
     public function removeFromCart(Request $request, $itemId)
     {
         $cartItems = $request->session()->get('cartItems', []);
-        $existingItemIndex = $this->findItemInCart1($cartItems, $itemId);
+        $existingItemIndex = $this->findItemInCart($cartItems, $itemId);
         // dd($cartItems, $itemId, $existingItemIndex);
         if ($existingItemIndex !== -1) {
             // If the item is found in the cart, decrease its quantity
@@ -94,4 +85,25 @@ class PosController extends Controller
         $request->session()->forget('cartItems');
         return redirect()->route('pos');
     }
+
+
+    public function checkout(Request $request)
+{
+    $cartItems = $request->session()->get('cartItems', []);
+
+    // If the cart is empty, return with an error message
+    if (empty($cartItems)) {
+        return redirect()->route('pos')->with('error', 'Your cart is empty. Please add items before checking out.');
+    }
+
+    // Process the checkout here (e.g., create an order and update inventory)
+    // For this demonstration, let's just assume the checkout is successful.
+
+    // Clear the cart after successful checkout
+    $request->session()->forget('cartItems');
+
+    // You can redirect to a "Thank You" page or other relevant pages after successful checkout
+    return redirect()->route('pos')->with('success', 'Checkout successful! Thank you for your purchase.');
+}
+
 }
