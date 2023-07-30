@@ -58,17 +58,40 @@ class PosController extends Controller
         return -1;
     }
 
+    private function findItemInCart1($cartItems, $itemId)
+    {
+        foreach ($cartItems as $index => $item) {
+            
+            if ($item['id'] == $itemId) {
+                return $index;
+            }
+        }
+        return -1;
+    }
+
     public function removeFromCart(Request $request, $itemId)
     {
         $cartItems = $request->session()->get('cartItems', []);
-        $existingItemIndex = $this->findItemInCart($cartItems, $itemId);
-
+        $existingItemIndex = $this->findItemInCart1($cartItems, $itemId);
+        // dd($cartItems, $itemId, $existingItemIndex);
         if ($existingItemIndex !== -1) {
-            // If the item is found in the cart, remove it
-            array_splice($cartItems, $existingItemIndex, 1);
+            // If the item is found in the cart, decrease its quantity
+            $cartItems[$existingItemIndex]['quantity']--;
+
+            // If the quantity becomes zero or less, remove the item from the cart
+            if ($cartItems[$existingItemIndex]['quantity'] <= 0) {
+                array_splice($cartItems, $existingItemIndex, 1);
+            }
+
             $request->session()->put('cartItems', $cartItems);
         }
 
+        return redirect()->route('pos');
+    }
+
+    public function clearCart(Request $request)
+    {
+        $request->session()->forget('cartItems');
         return redirect()->route('pos');
     }
 }

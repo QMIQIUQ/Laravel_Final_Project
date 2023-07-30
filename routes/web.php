@@ -34,9 +34,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/pos', [PosController::class, 'index'])->name('pos');
     Route::post('/search', [PosController::class, 'search'])->name('search');
     Route::post('/add-to-cart/{itemId}', [PosController::class, 'addToCart'])->name('addToCart');
-    Route::post('/remove-from-cart/{itemId}', [PosController::class, 'removeFromCart'])->name('removeFromCart');
-    Route::delete('/remove-from-cart/{itemId}', [PosController::class, 'removeFromCart'])->name('removeFromCart');
 
+    Route::delete('/remove-from-cart/{itemId}', [PosController::class, 'removeFromCart'])->name('removeFromCart');
+    Route::post('/clear-cart', [PosController::class, 'clearCart'])->name('clearCart');
 });
 
 Route::get('/', function () {
