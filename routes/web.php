@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SalesReportController;
+use App\Http\Controllers\OrderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -62,7 +63,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/add-to-cart/{itemId}', [PosController::class, 'addToCart'])->name('addToCart');
     Route::delete('/remove-from-cart/{itemId}', [PosController::class, 'removeFromCart'])->name('removeFromCart');
     Route::post('/clear-cart', [PosController::class, 'clearCart'])->name('clearCart');
-    Route::post('your/route/for/checkout', [PosController::class, 'checkout'])->name('checkout');});
+    Route::post('your/route/for/checkout', [PosController::class, 'checkout'])->name('checkout');
+    //orders
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders');
+    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('order.details');
+});
+
+
+
+
 
 //home
 Route::get('/', function () {
