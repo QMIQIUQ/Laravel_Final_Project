@@ -8,6 +8,19 @@
     </x-slot>
     <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+         @if(session('error'))
+        <script>
+            // Use JavaScript to show a notification prompt
+            alert("{{ session('error') }}");
+        </script>
+    @endif
+
+    @if(session('success'))
+        <script>
+            // Use JavaScript to show a notification prompt for success message
+            alert("{{ session('success') }}");
+        </script>
+    @endif
     <form action="{{ route('search') }}" method="POST">
         @csrf
         <label for="search" class="block text-sm mt-4 ">
