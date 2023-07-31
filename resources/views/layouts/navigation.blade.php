@@ -98,6 +98,31 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
         </div>
+        @if (auth()->user() && auth()->user()->user_role == 0)
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('showitems')" :active="request()->routeIs('showitems')">
+                {{ __('Product List') }}
+            </x-responsive-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                {{ __('Users') }}
+            </x-responsive-nav-link>
+        </div>
+        @endif
+
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('pos')" :active="request()->routeIs('pos')">
+                {{ __('Pos System') }}
+            </x-responsive-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('orders')" :active="request()->routeIs('orders')">
+                {{ __('Sales Record') }}
+            </x-responsive-nav-link>
+        </div>
+
+ 
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
