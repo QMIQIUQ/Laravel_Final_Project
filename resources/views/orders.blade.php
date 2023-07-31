@@ -9,7 +9,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6" id="orders-container">
 
             <div class=" flex items-center items-center">
                 {{-- Search bar --}}
@@ -76,46 +76,51 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.3/dist/flatpickr.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const searchInput = document.getElementById("search");
-            const orderContainers = document.querySelectorAll(".p-4");
-            const datepicker = flatpickr("#datepicker", {
-                dateFormat: "M d, Y", // Set the date picker format to "Jul 31, 2023"
-                onClose: function (selectedDates) {
-                    const selectedDate = selectedDates[0];
-                    searchInput.value = selectedDate ? selectedDate.toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric'
-                    }) : "";
-                    filterOrders();
-                }
+            // Initialize Flatpickr datepicker
+            flatpickr("#datepicker", {
+                dateFormat: "M d, Y",
             });
-
-            searchInput.addEventListener("input", filterOrders);
-
-            function filterOrders() {
-                const searchQuery = searchInput.value.trim().toLowerCase();
-
-                orderContainers.forEach((orderContainer) => {
-                    const orderText = orderContainer.textContent.trim().toLowerCase();
-
-                    if (orderText.includes(searchQuery)) {
-                        orderContainer.style.display = "block";
-                    } else {
-                        orderContainer.style.display = "none";
-                    }
-                });
+    
+            const ordersContainer = document.getElementById("orders-container");
+            const searchInput = document.getElementById("search");
+            const userFilterSelect = document.getElementById("userFilter");
+            const dateFilterInput = document.getElementById("datepicker");
+    
+            // Function to apply filters based on user selections
+            function applyFilters() {
+                const searchQuery = searchInput.value.toLowerCase();
+                const selectedUser = userFilterSelect.value.toLowerCase();
+                const selectedDate = dateFilterInput.value;
+    
+                const orders = ordersContainer.getElementsByClassName("p-4");
+                for (const order of orders) {
+                    const doneByUser = order.querySelector(".mb-4 h4").innerText.toLowerCase();
+                    const orderId = order.querySelector(".font-semibold u").innerText.toLowerCase();
+                    const date = order.querySelector(".text-gray-600").innerText;
+                    const totalPrice = order.querySelector(".text-gray-600 ~ .text-gray-600").innerText;
+    
+                    const userMatch = selectedUser === "all users" || doneByUser.includes(selectedUser);
+                    const dateMatch = selectedDate === "" || date.includes(selectedDate);
+                    const searchMatch =
+                        doneByUser.includes(searchQuery) ||
+                        orderId.includes(searchQuery) ||
+                        date.includes(searchQuery) ||
+                        totalPrice.includes(searchQuery);
+    
+                    const showOrder = (userMatch && dateMatch) && (searchQuery === "" || searchMatch);
+    
+                    order.style.display = showOrder ? "block" : "none";
+                }
             }
-            const userFilter = document.getElementById("userFilter");
-        userFilter.addEventListener("change", function () {
-            const selectedUserName = userFilter.value.trim().toLowerCase();
-            if (selectedUserName) {
-                searchInput.value = selectedUserName;
-            } else {
-                searchInput.value = "";
-            }
-            filterOrders();
-        });
+    
+            // Event listeners for filter elements
+            searchInput.addEventListener("input", applyFilters);
+            userFilterSelect.addEventListener("change", applyFilters);
+            dateFilterInput.addEventListener("change", applyFilters);
         });
     </script>
+    
+    
+    
+    
 </x-app-layout>
