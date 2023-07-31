@@ -6,7 +6,7 @@ use App\Http\Controllers\PosController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\SalesReportController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,6 +48,8 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::delete('/delete-user/{id}', [UserController::class, 'deleteUser'])->name('deleteUser');
     Route::patch('/users/{id}/change-password', 'UserController@changePassword')->name('users.change-password');
 
+
+    Route::get('/sales', [SalesReportController::class, 'index'])->name('sales.index');
 });
 
 //add items
