@@ -62,8 +62,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/add-to-cart/{itemId}', [PosController::class, 'addToCart'])->name('addToCart');
     Route::delete('/remove-from-cart/{itemId}', [PosController::class, 'removeFromCart'])->name('removeFromCart');
     Route::post('/clear-cart', [PosController::class, 'clearCart'])->name('clearCart');
-    Route::get('/checkout', [PosController::class, 'checkout'])->name('checkout');
-});
+    Route::post('your/route/for/checkout', [PosController::class, 'checkout'])->name('checkout');});
 
 //home
 Route::get('/', function () {
