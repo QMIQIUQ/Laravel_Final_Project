@@ -53,29 +53,43 @@
             </div>
 
             @foreach ($orders as $order)
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200 mb-4">
-                    <u>Order #{{ $order->id }}</u>
-                </h3>
-                <div class="mb-4">
-                    <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">Done By: {{ $order->user->name }}
-                    </h4>
+                {{-- Check if the user has admin role (user_role == 0) --}}
+                @if (auth()->user() && auth()->user()->user_role == 0)
+                    <!-- Show all orders -->
+                @else
+                    {{-- Show only the logged-in user's orders --}}
+                    {{-- Check if the order is owned by the logged-in user --}}
+                    @if ($order->user_id !== auth()->id())
+                        <!-- Skip displaying the order for other users -->
+                        @continue
+                    @endif
+                @endif
+
+                <!-- Display the order details -->
+                <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                    <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200 mb-4">
+                        <u>Order #{{ $order->id }}</u>
+                    </h3>
+                    <div class="mb-4">
+                        <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">Done By: {{ $order->user->name }}
+                        </h4>
+                    </div>
+
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">
+                        Date: {{ $order->created_at->format('M d, Y H:i A') }}
+                    </p>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">
+                        Total Price: <u>${{ $order->total_price }}</u>
+                    </p>
+
+                    <a href="{{ route('order.details', ['id' => $order->id]) }}" class="text-green-600">View
+                        Details</a>
                 </div>
-
-                <p class="text-gray-600 dark:text-gray-300 mb-4">
-                    Date: {{ $order->created_at->format('M d, Y H:i A') }}
-                </p>
-                <p class="text-gray-600 dark:text-gray-300 mb-4">
-                    Total Price: <u>${{ $order->total_price }}</u>
-                </p>
-
-                <a href="{{ route('order.details', ['id' => $order->id]) }}" class="text-green-600">View
-                    Details</a>
-            </div>
             @endforeach
 
         </div>
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.3/dist/flatpickr.min.js"></script>
     <script>
