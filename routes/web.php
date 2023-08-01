@@ -8,6 +8,8 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SalesReportController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\DashboardController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -67,6 +69,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //orders
     Route::get('/orders', [OrderController::class, 'index'])->name('orders');
     Route::get('/orders/{id}', [OrderController::class, 'show'])->name('order.details');
+
+//dashboard
+    Route::get('/getTotalSalesByMonth', [DashboardController::class, 'getTotalSalesByMonth'])->name('getTotalSalesByMonth');
+    Route::get('/getTotalSalesByDay', [DashboardController::class, 'getTotalSalesByDay'])->name('getTotalSalesByDay');
 });
 
 
@@ -79,9 +85,9 @@ Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/getTotalSalesByMonth', [DashboardController::class, 'getTotalSalesByMonth'])->name('getTotalSalesByMonth');
 
 //auth routes
 Route::middleware('auth','admin')->group(function () {
