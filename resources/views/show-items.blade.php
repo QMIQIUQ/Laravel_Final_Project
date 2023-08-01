@@ -63,7 +63,7 @@
                             <tr>
                                 <td class="px-4 py-2">{{ $product->item_code }}</td>
                                 <td class="px-4 py-2">{{ $product->item_name }}</td>
-                                <td class="px-4 py-2">{{ $product->item_price }}</td>
+                                <td class="px-4 py-2">$ {{ $product->item_price }}</td>
                                 <td class="px-4 py-2">{{ $product->item_type }}</td>
                                 <td class="px-4 py-2">
                                     <a href="{{ route('edit', ['id' => $product->id]) }}"

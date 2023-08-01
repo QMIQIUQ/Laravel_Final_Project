@@ -37,6 +37,10 @@
 
                 
             </div>
+            <a href="{{ route('download.pdf', ['order' => $order->id]) }}" class="bg-green-500 hover:bg-green-700 text-green-600 font-bold py-2 px-4 rounded">
+                Download Receipt (PDF)
+            </a>
         </div>
     </div>
+
 </x-app-layout>

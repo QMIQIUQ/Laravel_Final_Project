@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SalesReportController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PDFController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +70,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //orders
     Route::get('/orders', [OrderController::class, 'index'])->name('orders');
     Route::get('/orders/{id}', [OrderController::class, 'show'])->name('order.details');
+    Route::get('/download-pdf/{order}', [PDFController::class, 'generatePDF'])->name('download.pdf');
+
 
 //dashboard
     Route::get('/getTotalSalesByMonth', [DashboardController::class, 'getTotalSalesByMonth'])->name('getTotalSalesByMonth');
