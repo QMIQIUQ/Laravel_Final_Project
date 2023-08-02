@@ -70,12 +70,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //orders
     Route::get('/orders', [OrderController::class, 'index'])->name('orders');
     Route::get('/orders/{id}', [OrderController::class, 'show'])->name('order.details');
+    //pdf
     Route::get('/download-pdf/{order}', [PDFController::class, 'generatePDF'])->name('download.pdf');
-
 
 //dashboard
     Route::get('/getTotalSalesByMonth', [DashboardController::class, 'getTotalSalesByMonth'])->name('getTotalSalesByMonth');
     Route::get('/getTotalSalesByDay', [DashboardController::class, 'getTotalSalesByDay'])->name('getTotalSalesByDay');
+    
 });
 
 
@@ -84,10 +85,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 //home
 
-Route::get('/', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
+// Route::get('/', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/getTotalSalesByMonth', [DashboardController::class, 'getTotalSalesByMonth'])->name('getTotalSalesByMonth');
