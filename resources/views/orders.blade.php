@@ -39,16 +39,26 @@
 
                 {{-- User filter --}}
                 <div class="w-1/6">
+
                     <label for="userFilter" class="block text-sm mt-4">
+                        @if (auth()->user() && auth()->user()->user_role == 0)
                         <h3 class="text-gray-700 dark:text-gray-400">Filter by User:</h3>
                         <select id="userFilter"
                             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-select">
+
                             <option value="">All Users</option>
+
                             @foreach ($users as $user)
                             <option value="{{ $user->name }}">{{ $user->name }}</option>
+
                             @endforeach
                         </select>
+                        @else
+                        <select hidden id="userFilter">
+                        </select>
+                        @endif
                     </label>
+
                 </div>
             </div>
 
@@ -79,7 +89,7 @@
                     Date: {{ $order->created_at->format('M d, Y H:i A') }}
                 </p>
                 <p class="text-gray-600 dark:text-gray-300 mb-4">
-                    Total Price: $ <u>${{ $order->total_price }}</u>
+                    Total Price: $<u>{{ $order->total_price }}</u>
                 </p>
 
                 <a href="{{ route('order.details', ['id' => $order->id]) }}" class="text-green-600">View
