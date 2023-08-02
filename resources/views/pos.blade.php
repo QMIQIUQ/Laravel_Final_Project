@@ -160,9 +160,7 @@
                                         return;
                                     }
                                 }
-                                // Perform checkout logic here...
-                                // You may submit the form or redirect the user to the checkout page
-                                // based on your implementation.
+.
                                 alert('Checkout successful!');
                             }
                     </script>
