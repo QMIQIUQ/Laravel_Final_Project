@@ -136,33 +136,45 @@
 
 
                     <script>
-                        // Show/Hide checkout button based on payment method selection
+                        document.addEventListener('DOMContentLoaded', function () {
                             const cashAmountInput = document.getElementById('cash_amount_input');
                             const cashRadio = document.querySelector('input[name="payment_method"][value="cash"]');
                             const qrRadio = document.querySelector('input[name="payment_method"][value="qr"]');
-
+                            const checkoutButton = document.getElementById('checkout_button');
+                
                             cashRadio.addEventListener('change', () => {
                                 cashAmountInput.style.display = cashRadio.checked ? 'block' : 'none';
-                                document.getElementById('checkout_button').style.display = cashRadio.checked ? 'block' : 'none';
+                                checkoutButton.style.display = cashRadio.checked ? 'block' : 'none';
                             });
-
+                
                             qrRadio.addEventListener('change', () => {
                                 cashAmountInput.style.display = qrRadio.checked ? 'none' : 'block';
-                                document.getElementById('checkout_button').style.display = qrRadio.checked ? 'block' : 'none';
+                                checkoutButton.style.display = qrRadio.checked ? 'block' : 'none';
                             });
-
-                            function onCheckout() {
-                                const cashRadioChecked = document.querySelector('input[name="payment_method"][value="cash"]').checked;
-                                if (cashRadioChecked) {
-                                    const cashAmount = parseFloat(document.getElementById('cash_amount').value);
-                                    if (isNaN(cashAmount) || cashAmount < {{ $totalPrice }}) {
+                
+                            const cashAmountField = document.getElementById('cash_amount');
+                            const totalPrice = parseFloat("{{ $totalPrice }}"); // Convert the total price to a floating-point number
+                
+                            checkoutButton.addEventListener('click', function (event) {
+                                if (cashRadio.checked) {
+                                    const cashAmount = parseFloat(cashAmountField.value);
+                                    if (isNaN(cashAmount) || cashAmount < totalPrice) {
+                                        event.preventDefault(); // Prevent the form submission
                                         alert('Please enter an amount greater than or equal to the total price.');
-                                        return;
                                     }
+                                } else if (qrRadio.checked) {
+                                    // Handle QR payment logic here
                                 }
-.
-                                alert('Checkout successful!');
+                            });
+                
+                            // Initially, hide the "Checkout" button
+                            checkoutButton.style.display = 'none';
+                
+                            // Trigger the change event to initialize the UI state
+                            if (qrRadio.checked) {
+                                qrRadio.dispatchEvent(new Event('change'));
                             }
+                        });
                     </script>
 
                     @else
