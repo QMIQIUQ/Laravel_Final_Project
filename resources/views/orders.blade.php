@@ -95,7 +95,7 @@
                 <a href="{{ route('order.details', ['id' => $order->id]) }}" class="text-green-600">View
                     Details</a>
                 <a href="{{ route('download.pdf', ['order' => $order->id]) }}" style="color: yellow"
-                    class="bg-green-500 hover:bg-green-700 text-yellow font-bold py-2 px-4 rounded">
+                    class="text-yellow font-bold py-2 px-4 rounded">
                     Download Receipt (PDF)
                 </a>
             </div>

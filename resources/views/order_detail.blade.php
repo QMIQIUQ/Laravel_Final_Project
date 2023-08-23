@@ -8,7 +8,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <!-- Add the back button -->
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="window.history.back()">
+            <button class=" text-white font-bold py-2 px-4 rounded" onclick="window.history.back()">
                 < Back
             </button>
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
@@ -37,7 +37,7 @@
 
                 
             </div>
-            <a href="{{ route('download.pdf', ['order' => $order->id]) }}" class="bg-green-500 hover:bg-green-700 text-green-600 font-bold py-2 px-4 rounded">
+            <a href="{{ route('download.pdf', ['order' => $order->id]) }}" class=" text-green-600 font-bold py-2 px-4 rounded">
                 Download Receipt (PDF)
             </a>
         </div>
