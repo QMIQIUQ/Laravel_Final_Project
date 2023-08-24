@@ -92,10 +92,10 @@
                     Total Price: $<u>{{ $order->total_price }}</u>
                 </p>
 
-                <a href="{{ route('order.details', ['id' => $order->id]) }}" class="text-green-600">View
+                <a href="{{ route('order.details', ['id' => $order->id]) }}" class="text-green-600 hover:underline">View
                     Details</a>
                 <a href="{{ route('download.pdf', ['order' => $order->id]) }}" style="color: yellow"
-                    class="text-yellow font-bold py-2 px-4 rounded">
+                    class="text-yellow hover:underline font-bold py-2 px-4 rounded">
                     Download Receipt (PDF)
                 </a>
             </div>

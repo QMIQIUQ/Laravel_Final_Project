@@ -47,8 +47,8 @@
                 }
             </style>
 
-            <div class="text-white grid grid-cols-2 gap-4">
-                <div class="shadow-md rounded-lg p-4">
+            <div class="text-white gap-4 mx-auto">
+                <div class="shadow-md rounded-lg ">
                     <div class="flex justify-between items-center ">
                         <h3 class="text-lg font-semibold mb-4">Cart :</h3>
                         <!-- Clear Cart Button -->
@@ -63,6 +63,7 @@
                     </div>
 
                     @if (count($cartItems) > 0)
+                    
                     <table style="border: 1px solid dimgray; border-radius: 5px;" class=" table-auto w-full">
                         <thead>
                             <tr>
@@ -91,7 +92,7 @@
                                         class="inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-red-600">Remove</button>
+                                        <button type="submit" class="text-red-600 hover:underline">Remove</button>
                                     </form>
                                 </td>
                             </tr>

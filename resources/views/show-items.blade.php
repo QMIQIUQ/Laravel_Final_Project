@@ -65,7 +65,7 @@
                                 <td class="px-4 py-2">{{ $product->item_name }}</td>
                                 <td class="px-4 py-2">$ {{ $product->item_price }}</td>
                                 <td class="px-4 py-2">{{ $product->item_type }}</td>
-                                <td class="px-4 py-2">
+                                <td class="px-4 py-2 text-center">
                                     <a href="{{ route('edit', ['id' => $product->id]) }}"
                                         style="color: rgb(193, 223, 154)" class=" hover:underline">Edit</a>
                                     <form class="inline" method="POST"

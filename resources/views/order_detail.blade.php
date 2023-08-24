@@ -31,13 +31,13 @@
                         <li class="text-gray-400">{{ $item->product->item_name }} - Quantity: {{ $item->quantity }} - Unit Price: ${{ $item->unit_price }}</li>
                     @endforeach
                 </ul>
-                <p class="text-gray-600 dark:text-gray-300 mb-4">
+                <p class="text-gray-600 dark:text-gray-300 mb-4 ">
                     Total Price: $ <u>{{ $order->total_price }}</u>
                 </p>
 
                 
             </div>
-            <a href="{{ route('download.pdf', ['order' => $order->id]) }}" class=" text-green-600 font-bold py-2 px-4 rounded">
+            <a href="{{ route('download.pdf', ['order' => $order->id]) }}"style="color: yellow" class=" text-yellow hover:underline font-bold py-2 px-4 rounded">
                 Download Receipt (PDF)
             </a>
         </div>

@@ -32,8 +32,8 @@
 
             </div>
             <!-- User list table -->
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl text-white">
+            <div class=" bg-white dark:bg-gray-800 shadow sm:rounded-lg mx-auto">
+                <div class=" text-white">
                     <h2 class="text-lg font-semibold mb-4">All Users</h2>
 
                     <!-- Search bar -->
@@ -44,8 +44,20 @@
                         placeholder="Type to Search" required />
                     </label>
 
+                    <style>
+                        table {
+                            border-collapse: collapse;
+                        }
+
+                        th,
+                        td {
+                            border: 1px solid dimgray;
+                            padding: 5px;
+                        }
+                    </style>
+
                     @if ($users->count() > 0)
-                    <table class="min-w-full divide-y divide-gray-200 w-full">
+                    <table style="border: 1px solid dimgray; border-radius: 5px;" class=" table-auto w-full ">
                         <thead class="bg-gray-50 dark:bg-gray-700">
                             <tr>
                                 <th
@@ -57,7 +69,7 @@
                                     Email
                                 </th>
                                 <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                                     Actions
                                 </th>
                             </tr>
@@ -72,9 +84,9 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                     {{ $user->email }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium ">
                                     <a href="{{ route('edit-admin', $user->id) }}"
-                                        class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                        style="color: rgb(193, 223, 154)" class=" hover:underline">Edit</a>
                                 </td>
                             </tr>
                             @endforeach
