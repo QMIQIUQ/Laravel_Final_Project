@@ -92,62 +92,75 @@ class PosController extends Controller
 
 
 
-public function checkout(Request $request)
-{
-    $cartItems = $request->session()->get('cartItems', []);
-
-    // If the cart is empty, return with an error message
-    if (empty($cartItems)) {
-        return redirect()->route('pos')->with('error', 'Your cart is empty. Please add items before checking out.');
-    }
-
-    // Calculate the total price
-    $totalPrice = 0;
-    foreach ($cartItems as $item) {
-        $totalPrice += $item['price'] * $item['quantity'];
-    }
-
-    // Process the checkout here (e.g., create an order and update inventory)
-
-    // Start a database transaction to ensure data consistency
-    DB::beginTransaction();
-
-    try {
-        // Create a new order record in the database
-        $order = DB::table('orders')->insertGetId([
-            'user_id' => auth()->user()->id, // Assuming you have user authentication and each order is associated with a user
-            'total_price' => $totalPrice,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        // Store the order items in the 'order_items' table
+    public function checkout(Request $request)
+    {
+        $cartItems = $request->session()->get('cartItems', []);
+    
+        // If the cart is empty, return with an error message
+        if (empty($cartItems)) {
+            return redirect()->route('pos')->with('error', 'Your cart is empty. Please add items before checking out.');
+        }
+    
+        // Calculate the total price
+        $totalPrice = 0;
         foreach ($cartItems as $item) {
-            DB::table('order_items')->insert([
-                'order_id' => $order,
-                'product_id' => $item['id'],
-                'quantity' => $item['quantity'],
-                'unit_price' => $item['price'],
+            $totalPrice += $item['price'] * $item['quantity'];
+        }
+    
+        // Process the checkout here (e.g., create an order and update inventory)
+    
+        // Start a database transaction to ensure data consistency
+        DB::beginTransaction();
+    
+        try {
+            // Create a new order record in the database
+            $order = DB::table('orders')->insertGetId([
+                'user_id' => auth()->user()->id, // Assuming you have user authentication and each order is associated with a user
+                'total_price' => $totalPrice,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
+    
+            // Store the order items in the 'order_items' table
+            foreach ($cartItems as $item) {
+                DB::table('order_items')->insert([
+                    'order_id' => $order,
+                    'product_id' => $item['id'],
+                    'quantity' => $item['quantity'],
+                    'unit_price' => $item['price'],
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+    
+            // Commit the transaction since everything succeeded
+            DB::commit();
+    
+            // Clear the cart after successful checkout
+            $request->session()->forget('cartItems');
+    
+            // Check if cash payment method was selected
+            $cashRadioChecked = $request->input('payment_method') === 'cash';
+    
+            if ($cashRadioChecked) {
+                $cashAmount = floatval($request->input('cash_amount'));
+                $change = $cashAmount - $totalPrice;
+                $successMessage = $change > 0
+                    ? 'Checkout successful! Thank you for your purchase. Your change: ' . number_format($change, 2)
+                    : 'Checkout successful! Thank you for your purchase.';
+                return redirect()->route('pos')->with('success', $successMessage);
+            } else {
+                return redirect()->route('pos')->with('success', 'Checkout successful! Thank you for your purchase.');
+            }
+        } catch (Exception $e) {
+            // If there is an error, rollback the transaction to maintain data consistency
+            DB::rollback();
+    
+            // Log the specific exception
+            Log::error($e->getMessage());
+    
+            // Handle the error or display a message to the user
+            return redirect()->route('pos')->with('error', 'An error occurred during checkout. Please try again later.');
         }
-
-        // Commit the transaction since everything succeeded
-        DB::commit();
-
-        // Clear the cart after successful checkout
-        $request->session()->forget('cartItems');
-        // Redirect to a "Thank You" page or other relevant pages after successful checkout
-        return redirect()->route('pos')->with('success', 'Checkout successful! Thank you for your purchase.');
-    } catch (Exception $e) {
-        // If there is an error, rollback the transaction to maintain data consistency
-        DB::rollback();
-
-        // Log the specific exception
-    Log::error($e->getMessage());
-        // Handle the error or display a message to the user
-        return redirect()->route('pos')->with('error', 'An error occurred during checkout. Please try again later.');
     }
-}
 }

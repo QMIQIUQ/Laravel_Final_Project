@@ -160,8 +160,16 @@
                                 if (cashRadio.checked) {
                                     const cashAmount = parseFloat(cashAmountField.value);
                                     if (isNaN(cashAmount) || cashAmount < totalPrice) {
-                                        event.preventDefault(); // Prevent the form submission
+                                        event.preventDefault();
                                         alert('Please enter an amount greater than or equal to the total price.');
+                                    } else {
+                                        const change = cashAmount - totalPrice;
+                                        const successMessage = change > 0
+                                            ? `Checkout successful! Thank you for your purchase. Your change: ${change.toFixed(2)}`
+                                            : 'Checkout successful! Thank you for your purchase.';
+                                        if (!confirm(successMessage)) {
+                                            event.preventDefault();
+                                        }
                                     }
                                 } else if (qrRadio.checked) {
                                     // Handle QR payment logic here
